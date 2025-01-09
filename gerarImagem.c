@@ -203,13 +203,12 @@ int receber(void) {
     char soma_char = '0' + (next_number - soma_result);
 
     if(soma_char == final_number[7]){
-        printf("Código: %s", final_number);
+        printf("Código: %s\n", final_number);
     } else {
         printf("Código inválido\n");
         return 1;
     }
 
-    printf("\n");
 
     return 0;
 }
