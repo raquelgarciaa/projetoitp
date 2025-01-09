@@ -34,6 +34,13 @@ FILE * get_file() {
     FILE *arquivo;
     // Leitura do nome do arquivo
     char nome_arquivo[100];
+
+    printf("\n");
+    printf("----Nome do arquivo----\n");
+    printf("\n");
+
+    printf("Digite o caminho do arquivo: ");
+
     fgets(nome_arquivo, 100, stdin);
 
     // Remove o \n do nome do arquivo
@@ -201,6 +208,8 @@ int receber(void) {
         printf("Código inválido\n");
         return 1;
     }
+
+    printf("\n");
 
     return 0;
 }
