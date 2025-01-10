@@ -1,6 +1,6 @@
 # Projeto ITP
 
-Este é o repositório do projeto ITP. Ele contém os arquivos `extrair.c` e `geraImagem.c`, que podem ser compilados e executados no Linux usando o compilador `gcc`.
+Este é o repositório do projeto ITP. Ele contém os arquivos `extrair.c` e `geraImagem.c`, que podem ser compilados e executados usando o compilador `gcc`.
 
 ## Pré-requisitos
 
