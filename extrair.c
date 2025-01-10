@@ -105,7 +105,7 @@ void find_number(int i, char *linha, int contador, int *contador_number, char *n
 int main(void) {
     // Declaração de variáveis do pbm
     int largura, altura;
-    int contador = 0;
+    int largura_numero = 0;
     char tipo[3]; // P1
 
     FILE *arquivo = get_file();
@@ -124,7 +124,7 @@ int main(void) {
 
     char linha[largura];
 
-    find_first_line(altura, largura, arquivo, linha, &contador);
+    find_first_line(altura, largura, arquivo, linha, &largura_numero);
 
     char number[8];
     int contador_number = 0;
@@ -140,7 +140,7 @@ int main(void) {
 
     for (int i = 0; i < 56; i++) {
         // Encontra o 7 valores do código de barras de um digito
-        find_number(i, linha, contador, &contador_number, number);
+        find_number(i, linha, largura_numero, &contador_number, number);
 
         if(contador_number == 7) {
 
