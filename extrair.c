@@ -104,9 +104,9 @@ void find_number(int i, char *linha, int contador, int *contador_number, char *n
 
 int main(void) {
     // Declaração de variáveis do pbm
-    int largura, altura;
+
+    imagemPBM imagem;
     int largura_numero = 0;
-    char tipo[3]; // P1
 
     FILE *arquivo = get_file();
 
@@ -119,12 +119,12 @@ int main(void) {
     }
 
     // Leitura do cabeçalho
-    fscanf(arquivo, "%s\n", tipo);
-    fscanf(arquivo, "%d %d\n", &largura, &altura);
+    fscanf(arquivo, "%s\n", imagem.tipo);
+    fscanf(arquivo, "%d %d\n", &imagem.largura, &imagem.altura);
 
-    char linha[largura];
+    char linha[imagem.largura];
 
-    find_first_line(altura, largura, arquivo, linha, &largura_numero);
+    find_first_line(imagem.altura, imagem.largura, arquivo, linha, &largura_numero);
 
     char number[8];
     int contador_number = 0;
@@ -206,7 +206,6 @@ int main(void) {
         printf("Código inválido\n");
         return 1;
     }
-
 
     return 0;
 }

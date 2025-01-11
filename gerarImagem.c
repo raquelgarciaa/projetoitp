@@ -6,7 +6,20 @@
 #include "definitions.h"
 
 int codes[67];
-
+bool ehPar(int n){
+    if(n%2==0 || n==1){
+        return true;
+    }
+    return false;
+}
+int proximoMultiplo10(int n){
+    //próximo múltiplo de 10
+    //35, 36, 37, 38, 39, 40, 40%10 = 0
+    if(n%10==0){
+    return n;
+  }
+  return proximoMultiplo10(n+1);
+}
 void GerarCodigoEAN8(imagemPBM imagem){
   //adicionando os marcadores iniciais, centrais e finais
   codes[0] = 1;
@@ -49,21 +62,14 @@ void GerarCodigoEAN8(imagemPBM imagem){
   }
 }
 void GerarMatriz(imagemPBM imagem){
-  int altura = imagem.altura;
-  int largura = imagem.largura;
-  int espacamento = imagem.espacamentoLateral;
-  int pixels = imagem.qtdPixels;
+    int altura = imagem.altura;
+    int largura = imagem.largura;
+    int espacamento = imagem.espacamentoLateral;
+    int pixels = imagem.qtdPixels;
 
 
   int count=0;
-  /*
-    for(int i =0; i<67;i++){
-    printf("%d", codes[i]);
-  }
-  */
- int estado = 0;
- int index=0;
- printf("altura %d\n", altura);
+  int index=0;
   for(int i = 0; i<altura; i++){
     index=0;
     for(int j = 0; j<largura; j++){
@@ -84,33 +90,36 @@ void GerarMatriz(imagemPBM imagem){
   }
 
 }
-void printarArquivo(imagemPBM imagem){
-  FILE * file;
-  file = fopen(imagem.nomeArquivo, "w+");
-  fprintf(file, "P1\n");
-  fprintf(file, "%d %d\n", imagem.largura, imagem.altura);
-  for(int i = 0; i<imagem.altura; i++){
-    for(int j = 0; j<imagem.largura; j++){
-      fprintf(file, "%d ", imagem.Matriz[i][j]);
+void gravarArquivoPBM(imagemPBM imagem, FILE *file) {
+    fprintf(file, "P1\n");
+    fprintf(file, "%d %d\n", imagem.largura, imagem.altura);
+    for (int i = 0; i < imagem.altura; i++) {
+        for (int j = 0; j < imagem.largura; j++) {
+            fprintf(file, "%d ", imagem.Matriz[i][j]);
+        }
+        fprintf(file, "\n");
     }
-    fprintf(file, "\n");
-  }
-  fclose(file);
+}
 
-}
-bool ehPar(int n){
-  if(n%2==0 || n==1){
-    return true;
-  }
-  return false;
-}
-int proximoMultiplo10(int n){
-  //próximo múltiplo de 10
-  //35, 36, 37, 38, 39, 40, 40%10 = 0
-  if(n%10==0){
-    return n;
-  }
-  return proximoMultiplo10(n+1);
+void printarArquivo(imagemPBM imagem) {
+    FILE *fileTeste = fopen(imagem.nomeArquivo, "r");
+    if (fileTeste == NULL) {
+        FILE *file = fopen(imagem.nomeArquivo, "w");
+        gravarArquivoPBM(imagem, file);
+        fclose(file);
+    } else {
+        fclose(fileTeste);
+        int sobrescrever;
+        printf("O arquivo já existe, deseja sobrescrever? (1 - sim, 0 - não): ");
+        scanf("%d", &sobrescrever);
+        if (sobrescrever == 1) {
+            FILE *file = fopen(imagem.nomeArquivo, "w");
+            gravarArquivoPBM(imagem, file);
+            fclose(file);
+        } else {
+            printf("Arquivo resultante já existe\n");
+        }
+    }
 }
 int main(void) {
   imagemPBM imagem;
@@ -120,7 +129,7 @@ int main(void) {
   char *espacamentoLateral = malloc(sizeof(char*)*100) ;
   char *qtdPixels = malloc(sizeof(char*)*100);
   char *alturaCodigo = malloc(sizeof(char*)*100);
-  char *nomeArquivo = malloc(sizeof(char*)*100);
+  char *nomeArquivo = malloc(sizeof(char)*100);
 
 
   printf("\n");
@@ -128,6 +137,7 @@ int main(void) {
   printf("\n");
   printf("Digite o identificador: ");
   fgets(identificador, 100, stdin);
+
 
   printf("\n");
   printf("----Argumentos opcionais----\n");
@@ -139,7 +149,7 @@ int main(void) {
   printf("Digite a altura do codigo de barras: ");
   fgets(alturaCodigo, 100, stdin);
 
-  printf("Digite o nome do arquivo: ");
+  printf("Digite o nome do arquivo com extensao PBM: ");
   fgets(nomeArquivo, 100, stdin);
   printf("\n");
 
@@ -181,6 +191,11 @@ int main(void) {
   }
 
   if(ok == true){
+
+      size_t len = strlen(nomeArquivo);
+      if (len > 0 && nomeArquivo[len - 1] == '\n') {
+          nomeArquivo[len - 1] = '\0';
+      }
     //se o valor da string for 1, quer dizer que só contem /n
     imagem.espacamentoLateral = (strlen(espacamentoLateral) == 1) ? 4 : atoi(espacamentoLateral);
     imagem.qtdPixels = (strlen(qtdPixels) == 1) ? 3 : atoi(qtdPixels);
@@ -211,12 +226,6 @@ int main(void) {
 
     GerarCodigoEAN8(imagem);
     GerarMatriz(imagem);
-    for(int i  = 0; i<imagem.altura; i++){
-    for(int j = 0; j<imagem.largura; j++){
-      printf("%d", imagem.Matriz[i][j]);
-    }
-    printf("\n");
-  }
     printarArquivo(imagem);
 
   }

@@ -3,6 +3,7 @@
 
 typedef struct imagem{
   char *nomeArquivo;
+  char *tipo;
   int largura;
   int altura;
   int espacamentoLateral;
