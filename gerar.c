@@ -156,7 +156,10 @@ int main(int argc, char *argv[])
 
   imagemPBM imagem;
   // argumento obrigatório
-  char *identificador = strcpy(identificador, argv[2]);
+
+  char *identificador = malloc(sizeof(char *) * 8);
+  strcpy(identificador, argv[2]);
+  
   // declarando o tamanho de nome do arquivo
   imagem.nomeArquivo = malloc(sizeof(char *) * 500);
 
