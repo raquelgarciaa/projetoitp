@@ -29,3 +29,7 @@ gcc -o meu_programa extrair.c declaration.c
 ```s
 gcc -o meu_programa gerar.c declaration.c
 ```
+</br>
+```s
+.\meu_programa.exe identificador {} espacamento {} pixels {} altura {} nome {}
+```
