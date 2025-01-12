@@ -5,36 +5,6 @@
 #include "definitions.h"
 #include <errno.h>
 
-int soma(char *final_number)
-{
-    int soma = 0;
-    for (int i = 0; i < 7; i++)
-    {
-        if (i % 2 == 0)
-        {
-            soma += (final_number[i] - '0') * 3;
-        }
-        else
-        {
-            soma += (final_number[i] - '0');
-        }
-    }
-
-    return soma;
-}
-
-int find_next(int soma)
-{
-    int next_number = soma;
-
-    while (next_number % 10 != 0)
-    {
-        next_number++;
-    }
-
-    return next_number;
-}
-
 FILE *get_file(char *nome_arquivo)
 {
     FILE *arquivo;
@@ -149,8 +119,11 @@ int main(int argc, char *argv[])
     printf("Largura: %d, Altura: %d\n", imagem.largura, imagem.altura);
 
     printf("--- Lendo codigo do arquivo PBM...\n");
-
-    char linha[imagem.largura];
+    char *linha = (char *)malloc(imagem.largura * sizeof(char));
+    if (linha == NULL) {
+        printf("Erro ao alocar memória para linha.\n");
+        return 1;
+    }
 
     find_first_line(imagem.altura, imagem.largura, arquivo, linha, &largura_numero);
 
@@ -239,20 +212,10 @@ int main(int argc, char *argv[])
     }
 
     // Verifica se o código é válido
-    int soma_result = soma(final_number);
-    int next_number = find_next(soma_result);
 
-    char soma_char = '0' + (next_number - soma_result);
+    printf("Código: %s\n", final_number);
 
-    if (soma_char == final_number[7])
-    {
-        printf("Código: %s\n", final_number);
-    }
-    else
-    {
-        printf("Código inválido\n");
-        return 1;
-    }
+    free(linha);
 
     return 0;
 }
