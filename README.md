@@ -21,11 +21,11 @@ sudo apt-get install gcc
 ### extrair.c
 
 ```s
-gcc -o meu_programa extrair.c declarations.c
+gcc -o meu_programa extrair.c declaration.c
 ```
 
 ### gerarImagem.c
 
 ```s
-gcc -o meu_programa gerarImagem.c declarations.c
+gcc -o meu_programa gerarImagem.c declaration.c
 ```
