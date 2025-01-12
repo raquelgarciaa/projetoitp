@@ -127,18 +127,28 @@ int main(int argc, char *argv[])
 
     FILE *arquivo = get_file(argv[1]);
 
-    // Verifica se o arquivo foi aberto corretamente
-    if (arquivo == NULL)
-    {
-        printf("Erro ao abrir o arquivo\n");
-        printf("Erro foi: %s\n", strerror(errno));
-
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo '%s': %s\n", argv[1], strerror(errno));
         return 1;
     }
 
     // Leitura do cabeçalho
-    fscanf(arquivo, "%s\n", imagem.tipo);
-    fscanf(arquivo, "%d %d\n", &imagem.largura, &imagem.altura);
+    printf("--- Lendo cabeçalho do arquivo PBM...\n");
+    if (fscanf(arquivo, "%s", imagem.tipo) != 1 || strcmp(imagem.tipo, "P1") != 0) {
+        printf("Formato de arquivo inválido\n");
+        return 1;
+    }
+
+    printf("Tipo: %s\n", imagem.tipo);
+
+    if (fscanf(arquivo, "%d %d\n", &imagem.largura, &imagem.altura) != 2) {
+        printf("Erro ao ler largura e altura do arquivo PBM.\n");
+        return 1;
+    }
+
+    printf("Largura: %d, Altura: %d\n", imagem.largura, imagem.altura);
+
+    printf("--- Lendo codigo do arquivo PBM...\n");
 
     char linha[imagem.largura];
 
