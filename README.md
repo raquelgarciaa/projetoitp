@@ -27,5 +27,5 @@ gcc -o meu_programa extrair.c declaration.c
 ### gerarImagem.c
 
 ```s
-gcc -o meu_programa gerarImagem.c declaration.c
+gcc -o meu_programa gerar.c declaration.c
 ```
