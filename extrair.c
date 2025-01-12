@@ -35,26 +35,18 @@ int find_next(int soma)
     return next_number;
 }
 
-FILE *get_file()
+FILE *get_file(char *nome_arquivo)
 {
     FILE *arquivo;
-    // Leitura do nome do arquivo
-    char nome_arquivo[100];
 
-    printf("\n");
-    printf("----Nome do arquivo----\n");
-    printf("\n");
-
-    printf("Digite o caminho do arquivo: ");
-
-    fgets(nome_arquivo, 100, stdin);
-
-    // Remove o \n do nome do arquivo
-    size_t len = strlen(nome_arquivo);
+    /*
+        size_t len = strlen(nome_arquivo);
     if (len > 0 && nome_arquivo[len - 1] == '\n')
     {
         nome_arquivo[len - 1] = '\0';
     }
+    */
+    // Remove o \n do nome do arquivo
 
     arquivo = fopen(nome_arquivo, "r");
 
@@ -123,14 +115,17 @@ void find_number(int i, char *linha, int contador, int *contador_number, char *n
     }
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
-    // Declaração de variáveis do pbm
+    /*
+    argumentos passados na linha de comando
+    exemplo.pbm
+    */
 
     imagemPBM imagem;
     int largura_numero = 0;
 
-    FILE *arquivo = get_file();
+    FILE *arquivo = get_file(argv[1]);
 
     // Verifica se o arquivo foi aberto corretamente
     if (arquivo == NULL)
